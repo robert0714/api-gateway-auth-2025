@@ -169,3 +169,37 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
 
+# SAM LOCAL
+## Ready
+```bash
+vagrant up
+vagrant ssh
+sudo apt install -y wget unzip
+
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
+wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
+unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
+sudo ./sam-installation/install
+sam --version
+```
+## Test in sam Local
+```bash
+sam local start-api
+```
+another terminal
+```bash
+vagrant@sam:~$ curl --location 'http://127.0.0.1:3000' 
+
+vagrant@sam:~$ curl --location 'http://127.0.0.1:3000/simple'  
+vagrant@sam:~$ curl --location 'http://127.0.0.1:3000/admin'  
+vagrant@sam:~$ curl --location 'http://127.0.0.1:3000/service-role'  
+```
+```bash
+
+$ sam deploy --s3-bucket $CF_BUCKET --stack-name api-gateway-auth --capabilities CAPABILITY_IAM
+```
