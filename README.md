@@ -72,7 +72,7 @@ in [template-all-auth.yaml](template-all-auth.yaml#L174)
 ```
     api-gateway-auth$ sam build
 ```
-
+![sam build](https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2020/12/17/mtls2.jpg)
 ```
     api-gateway-auth$ sam deploy -t
 
@@ -85,8 +85,30 @@ in [template-all-auth.yaml](template-all-auth.yaml#L174)
     Capabilities               : ["CAPABILITY_IAM"]
     Parameter overrides        : {'HostedZoneId': 'Hosted zone id for custom domain', 'DomainName': 'domain name for the http api', 'TruststoreKey': 'truststore.pem'}
 ```
+![sam build](https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2020/12/17/mtls3.jpg)
 
-
+Or
+```bash
+aws cloudformation deploy \
+    --template-file template.yaml \
+    --stack-name http-api-authdemo \
+    --region $REGION \
+    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+    --parameter-overrides \
+        HostedZoneId=$HOSTED_ZONE_ID \
+        DomainName=$DOMAIN_NAME \
+        TruststoreKey=$TRUSTSTORE_KEY
+```
+Or
+```bash
+ sam deploy --s3-bucket $CF_BUCKET \
+    --stack-name http-api-authdemo \
+    --capabilities CAPABILITY_IAM
+    --parameter-overrides \
+        HostedZoneId=$HOSTED_ZONE_ID \
+        DomainName=$DOMAIN_NAME \
+        TruststoreKey=$TRUSTSTORE_KEY
+```
 ## Testing and validation
 
 At this point, your stack should update successfully and you will have a HTTP API with Mutual TLS setup by default using 
